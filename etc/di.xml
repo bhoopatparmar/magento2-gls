@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Salecto\GLS\Api\Carrier\GLSInterface" type="Salecto\GLS\Model\Carrier\GLS"/>
+    <preference for="Salecto\GLS\Api\Data\ParcelShopInterface" type="Salecto\GLS\Model\Data\ParcelShop"/>
+
+    <type name="Salecto\Shipping\Model\ComponentManagement">
+        <arguments>
+            <argument name="carriers" xsi:type="array">
+                <item name="gls" xsi:type="object">Salecto\GLS\Api\Carrier\GLSInterface</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Salecto\GLS\Model\MethodType\ParcelShop">
+        <arguments>
+            <argument name="parcelShopClass" xsi:type="string">Salecto\GLS\Api\Data\ParcelShopInterface</argument>
+        </arguments>
+    </type>
+    <type name="Salecto\GLS\Model\Carrier\GLS">
+        <arguments>
+            <argument name="defaultMethodTypeHandler" xsi:type="object">Salecto\GLS\Model\MethodType\Address</argument>
+            <argument name="methodTypeHandlers" xsi:type="array">
+                <item name="business" xsi:type="array">
+                    <item name="label" xsi:type="string">Business</item>
+                </item>
+                <item name="private" xsi:type="array">
+                    <item name="label" xsi:type="string">Private</item>
+                </item>
+                <item name="international" xsi:type="array">
+                    <item name="label" xsi:type="string">International</item>
+                </item>
+                <item name="parcelshop" xsi:type="array">
+                    <item name="label" xsi:type="string">Pickup Parcel</item>
+                    <item name="type" xsi:type="object">Salecto\GLS\Model\MethodType\ParcelShop</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+</config>
